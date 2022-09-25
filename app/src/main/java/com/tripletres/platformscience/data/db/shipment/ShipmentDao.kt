@@ -10,15 +10,18 @@ import androidx.room.Query
  */
 @Dao
 interface ShipmentDao {
-    @Query("SELECT * FROM shipment")
+    @Query("SELECT * FROM shipment_table")
     suspend fun getAll(): List<ShipmentEntity>
 
-    @Query("SELECT * FROM shipment WHERE id = :id")
-    suspend fun getById(id: Int)
+    @Query("SELECT * FROM shipment_table WHERE id = :id")
+    suspend fun getById(id: Int): ShipmentEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(shipmentEntity: ShipmentEntity)
 
-    @Query("DELETE FROM shipment")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(shipments: List<ShipmentEntity>)
+
+    @Query("DELETE FROM shipment_table")
     suspend fun deleteAll()
 }

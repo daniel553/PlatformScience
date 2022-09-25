@@ -7,15 +7,18 @@ import androidx.room.Query
 
 @Dao
 interface DriverDao {
-    @Query("SELECT * FROM driver")
+    @Query("SELECT * FROM driver_table")
     suspend fun getAll(): List<DriverEntity>
 
-    @Query("SELECT * FROM driver WHERE id = :id")
-    suspend fun getById(id: Int)
+    @Query("SELECT * FROM driver_table WHERE id = :id")
+    suspend fun getById(id: Int): DriverEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(driverEntity: DriverEntity)
 
-    @Query("DELETE FROM driver")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(driverEntity: List<DriverEntity>)
+
+    @Query("DELETE FROM driver_table")
     suspend fun deleteAll()
 }
