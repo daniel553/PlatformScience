@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitUtil {
     private const val BASE_URL = "https://www.tripletres.com/platformscience/"
 
-    val instance: Retrofit by lazy {
-        Retrofit
+    fun instance(): Retrofit {
+        return Retrofit
             .Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
