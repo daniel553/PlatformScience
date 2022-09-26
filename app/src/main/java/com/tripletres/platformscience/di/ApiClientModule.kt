@@ -1,6 +1,6 @@
 package com.tripletres.platformscience.di
 
-import com.tripletres.platformscience.data.network.ShipmentApiClient
+import com.tripletres.platformscience.data.network.ShipmentDriverApiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ object ApiClientModule {
 
     @Provides
     @Singleton
-    fun provideShipmentApiClient(retrofit: Retrofit): ShipmentApiClient =
-        retrofit.create(ShipmentApiClient::class.java)
+    fun provideShipmentDriverApiClient(retrofit: Retrofit): ShipmentDriverApiClient =
+        retrofit.create(ShipmentDriverApiClient::class.java)
 
 }
