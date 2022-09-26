@@ -2,6 +2,7 @@ package com.tripletres.platformscience.data.repo
 
 import com.tripletres.platformscience.data.db.asDriverEntityList
 import com.tripletres.platformscience.data.db.asShipmentEntityList
+import com.tripletres.platformscience.data.db.driver.DriverEntity
 import com.tripletres.platformscience.data.network.ShipmentDriverService
 import javax.inject.Inject
 
@@ -25,4 +26,6 @@ class ShipmentDriverRepository @Inject constructor(
             driverRepository.saveDrivers(shipmentsWithDrivers.drivers.asDriverEntityList())
         }
     }
+
+    suspend fun getDrivers(): List<DriverEntity> = driverRepository.getDriversFromDB()
 }
