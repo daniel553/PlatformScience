@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.tripletres.platformscience.R
 import com.tripletres.platformscience.ui.navigation.Router
+import kotlinx.coroutines.delay
 
 /**
  * Custom splash screen for loading, google's refer to API usage instead:
@@ -53,9 +54,9 @@ fun SplashScreenCompose(navController: NavHostController, viewModel: SplashViewM
         }
     }
 
-
     if(uiState.value.status == SplashUiStatus.DONE){
         LaunchedEffect(true){
+            delay(200)
             navController.navigate(Router.DriverListScreen.route){
                 popUpTo(Router.SplashScreen.route)
             }
