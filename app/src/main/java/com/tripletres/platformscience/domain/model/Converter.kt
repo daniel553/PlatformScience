@@ -24,12 +24,12 @@ fun List<ShipmentEntity>.asShipmentList(): List<Shipment> = this.map { it.asShip
 /**
  * Parse driver item from ui to Domain driver
  */
-fun DriverItem.asDriver(): Driver = Driver(id, name, null)
+fun DriverItem.asDriver(): Driver = Driver(id, name, null, 0f)
 
 /**
  * Parse driver item from ui to Domain driver
  */
-fun DriverEntity.asDriver(): Driver = Driver(id, name, null)
+fun DriverEntity.asDriver(): Driver = Driver(id, name, null, 0f)
 
 fun ShipmentItem.asShipment(): Shipment = Shipment(id, address)
 

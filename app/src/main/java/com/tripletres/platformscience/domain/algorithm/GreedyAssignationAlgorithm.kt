@@ -15,6 +15,12 @@ class GreedyAssignationAlgorithm() : IAssignationAlgorithm {
         // Just use kotlin functions to sort them
         list.sortBy { it.ss }
         //Get bets matching by making a distinct driver
-        return list.distinctBy { it.driver }.map { it.driver.copy(shipment = it.shipment) }
+        val ssTemp = mutableListOf<SuitabilityScore>()
+        list.forEach { ss ->
+            if (ssTemp.find { it.driver == ss.driver || it.shipment == ss.shipment } == null) {
+                ssTemp.add(ss)
+            }
+        }
+        return ssTemp.map { it.driver.copy(shipment = it.shipment, ss = it.ss) }
     }
 }
