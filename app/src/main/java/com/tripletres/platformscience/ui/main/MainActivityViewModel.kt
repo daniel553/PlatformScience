@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.tripletres.platformscience.data.db.driver.DriverEntity
 import com.tripletres.platformscience.data.repo.ShipmentDriverRepository
 import com.tripletres.platformscience.data.repo.ShipmentRepository
+import com.tripletres.platformscience.domain.AssignDriversToShipmentsUseCase
+import com.tripletres.platformscience.domain.LoadDriversShipmentsUseCase
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.util.LogUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +25,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    //TODO inject use case
-private val repo: ShipmentDriverRepository
+    private val loadDriversShipmentsUseCase: LoadDriversShipmentsUseCase,
+    private val assignDriversToShipmentsUseCase: AssignDriversToShipmentsUseCase,
 ): ViewModel() {
 
     private val _mainUiState = MutableStateFlow(MainUiState())
@@ -37,8 +39,9 @@ private val repo: ShipmentDriverRepository
     private fun fetchShipmentsWithDrivers() {
         showLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
-            repo.fetchShipmentsWithDrivers()
-            val drivers: List<DriverItem> = repo.getDrivers().asDriverItemList()
+            loadDriversShipmentsUseCase()
+            assignDriversToShipmentsUseCase()
+            val drivers: List<DriverItem> = emptyList() //repo.getDrivers().asDriverItemList()
             LogUtils.d("Drivers: ${drivers.toString()}")
             updateDrivers(drivers)
             showLoading(false)
