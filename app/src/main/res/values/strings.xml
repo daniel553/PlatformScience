@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PlatformScience</string>
+
+    //Splash
+    <string name="splash_fetching">Fetching data…</string>
+    <string name="splash_assigning">Assigning drivers to shipments…</string>
+    <string name="splash_done">Starting…</string>
 </resources>

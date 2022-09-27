@@ -1,4 +1,4 @@
-package com.tripletres.platformscience.ui.main
+package com.tripletres.platformscience.ui.view.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,51 +9,40 @@ import com.tripletres.platformscience.util.LogUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Main activity view model class. Allows to update the initial view state
- * between loading components with splash and data loads
+ * Load all needed to show main view after
  */
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
+class SplashViewModel @Inject constructor(
     private val loadDriversShipmentsUseCase: LoadDriversShipmentsUseCase,
     private val assignDriversToShipmentsUseCase: AssignDriversToShipmentsUseCase,
-): ViewModel() {
+) : ViewModel() {
 
-    private val _mainUiState = MutableStateFlow(MainUiState())
-    val mainUiState: StateFlow<MainUiState> = _mainUiState.asStateFlow()
+    private val _uiState = MutableStateFlow(SplashUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
         fetchShipmentsWithDrivers()
     }
 
     private fun fetchShipmentsWithDrivers() {
-        showLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             loadDriversShipmentsUseCase()
+            updateStatus(SplashUiStatus.ASSIGNING)
             assignDriversToShipmentsUseCase()
+            updateStatus(SplashUiStatus.DONE)
             val drivers: List<DriverItem> = emptyList()
             LogUtils.d("Drivers: ${drivers.toString()}")
-            updateDrivers(drivers)
-            showLoading(false)
         }
     }
 
-    private fun showLoading(loading: Boolean) {
-        _mainUiState.update {
-            it.copy(isLoading = loading )
-        }
-    }
-
-    private fun updateDrivers(drivers: List<DriverItem>) {
-        _mainUiState.update {
-            it.copy(drivers = drivers)
-        }
+    private fun updateStatus(newStatus: SplashUiStatus) {
+        _uiState.update { state -> state.copy(status = newStatus) }
     }
 
 }

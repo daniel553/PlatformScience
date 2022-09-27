@@ -1,4 +1,4 @@
-package com.tripletres.platformscience.ui.main
+package com.tripletres.platformscience.ui.view.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

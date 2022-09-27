@@ -1,4 +1,4 @@
-package com.tripletres.platformscience.ui.driver
+package com.tripletres.platformscience.ui.view.driver
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
