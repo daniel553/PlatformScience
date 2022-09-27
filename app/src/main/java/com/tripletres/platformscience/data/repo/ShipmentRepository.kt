@@ -12,5 +12,7 @@ class ShipmentRepository @Inject constructor(
 ) {
 
     suspend fun saveShipments(shipments: List<ShipmentEntity>) = shipmentDao.insertAll(shipments)
+    suspend fun getShipmentsFromDB(): List<ShipmentEntity> = shipmentDao.getAll()
+    suspend fun clearShipmentsFromDB() = shipmentDao.deleteAll()
 
 }

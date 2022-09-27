@@ -3,7 +3,10 @@ package com.tripletres.platformscience.data.repo
 import com.tripletres.platformscience.data.db.asDriverEntityList
 import com.tripletres.platformscience.data.db.asShipmentEntityList
 import com.tripletres.platformscience.data.db.driver.DriverEntity
+import com.tripletres.platformscience.data.db.shipment.ShipmentEntity
+import com.tripletres.platformscience.data.model.ShipmentDriverResponse
 import com.tripletres.platformscience.data.network.ShipmentDriverService
+import com.tripletres.platformscience.domain.model.Driver
 import javax.inject.Inject
 
 class ShipmentDriverRepository @Inject constructor(
@@ -12,20 +15,40 @@ class ShipmentDriverRepository @Inject constructor(
     private val driverRepository: DriverRepository
 ) {
 
-    suspend fun fetchShipmentsWithDrivers() {
+    /**
+     * Fetches shipments with drivers from API
+     * @return true when response data is not empty
+     */
+    suspend fun fetchShipmentsWithDriversFromApi(): Boolean {
         // Fetches the data json with shipments and drivers lists
         val shipmentsWithDrivers = api.getShipmentsWithDrivers()
 
+        // Saves them to data base
+        saveShipmentsWithDriversToDB(
+            shipmentsWithDrivers.shipments.asShipmentEntityList(),
+            shipmentsWithDrivers.drivers.asDriverEntityList()
+        )
+
+        return shipmentsWithDrivers.shipments.isNotEmpty() &&
+                shipmentsWithDrivers.drivers.isNotEmpty()
+    }
+
+    /**
+     * Save new shipments and drivers to db
+     */
+    suspend fun saveShipmentsWithDriversToDB(
+        shipments: List<ShipmentEntity>,
+        drivers: List<DriverEntity>
+    ) {
         // Saves in local db shipments
-        if (shipmentsWithDrivers.shipments.isNotEmpty()) {
-            shipmentRepository.saveShipments(shipmentsWithDrivers.shipments.asShipmentEntityList())
+        if (shipments.isNotEmpty()) {
+            shipmentRepository.saveShipments(shipments)
         }
 
         // Then drivers too
-        if (shipmentsWithDrivers.drivers.isNotEmpty()) {
-            driverRepository.saveDrivers(shipmentsWithDrivers.drivers.asDriverEntityList())
+        if (drivers.isNotEmpty()) {
+            driverRepository.saveDrivers(drivers)
         }
     }
 
-    suspend fun getDrivers(): List<DriverEntity> = driverRepository.getDriversFromDB()
 }
