@@ -22,4 +22,4 @@ fun List<String>.asDriverEntityList(): List<DriverEntity> {
  */
 fun String.asShipmentEntity(): ShipmentEntity = ShipmentEntity(address = this)
 
-fun String.asDriverEntity(): DriverEntity = DriverEntity(name = this)
+fun String.asDriverEntity(): DriverEntity = DriverEntity(name = this, assignation = null)

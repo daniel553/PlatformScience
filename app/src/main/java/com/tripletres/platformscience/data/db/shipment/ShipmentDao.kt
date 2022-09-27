@@ -13,7 +13,7 @@ interface ShipmentDao {
     @Query("SELECT * FROM shipment_table")
     suspend fun getAll(): List<ShipmentEntity>
 
-    @Query("SELECT * FROM shipment_table WHERE id = :id")
+    @Query("SELECT * FROM shipment_table WHERE shipment_id = :id")
     suspend fun getById(id: Int): ShipmentEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

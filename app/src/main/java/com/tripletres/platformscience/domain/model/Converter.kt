@@ -1,5 +1,6 @@
 package com.tripletres.platformscience.domain.model
 
+import com.tripletres.platformscience.data.db.driver.DriverAssignationEntity
 import com.tripletres.platformscience.data.db.driver.DriverEntity
 import com.tripletres.platformscience.data.db.shipment.ShipmentEntity
 import com.tripletres.platformscience.ui.model.DriverItem
@@ -34,3 +35,24 @@ fun DriverEntity.asDriver(): Driver = Driver(id, name, null, 0f)
 fun ShipmentItem.asShipment(): Shipment = Shipment(id, address)
 
 fun ShipmentEntity.asShipment(): Shipment = Shipment(id, address)
+
+
+/**
+ * Parse to driver entity for Database from Domain
+ */
+fun Driver.asDriverEntity(): DriverEntity {
+    return DriverEntity(
+        id = this.id,
+        name = this.name,
+        assignation = this.ss?.let {
+            this.shipment?.asShipmentEntity()?.let { shipment ->
+                DriverAssignationEntity(
+                    shipment = shipment,
+                    suitabilityScore = it
+                )
+            }
+        }
+    )
+}
+
+private fun Shipment.asShipmentEntity(): ShipmentEntity = ShipmentEntity(this.id, this.address)

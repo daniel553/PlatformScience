@@ -15,23 +15,24 @@ import javax.inject.Inject
 class AssignDriversToShipmentsUseCase @Inject constructor(
     private val driverRepository: DriverRepository,
     private val shipmentRepository: ShipmentRepository,
+    private val saveDriversAssigned: SaveDriversAssignedToShipmentsUseCase,
 ) {
 
-    suspend operator fun invoke(): Boolean {
+    suspend operator fun invoke(): List<Driver> {
         val drivers = driverRepository.getDriversFromDB().asDriverList()
         val shipments = shipmentRepository.getShipmentsFromDB().asShipmentList()
 
-        return assignDriversToShipment(drivers, shipments)
+        val driverAssigned = assignDriversToShipment(drivers, shipments)
+        //Save in assigned drivers
+        saveDriversAssigned(driverAssigned)
+        return driverAssigned
     }
 
     /**
      * Perform assignation of shipments to drivers
      */
-    private fun assignDriversToShipment(drivers: List<Driver>, shipments: List<Shipment>): Boolean {
-        val assigned =
-            ShipmentDriverAssignation(GreedyAssignationAlgorithm()).execute(drivers, shipments)
-        //TODO: save
-        return true
+    private fun assignDriversToShipment(drivers: List<Driver>, shipments: List<Shipment>): List<Driver> {
+        return ShipmentDriverAssignation(GreedyAssignationAlgorithm()).execute(drivers, shipments)
     }
 
 }

@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "shipment_table")
 data class ShipmentEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "shipment_id")
+    val id: Long = 0L,
     @ColumnInfo(name = "address") val address: String
 )

@@ -2,15 +2,11 @@ package com.tripletres.platformscience.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tripletres.platformscience.data.db.driver.DriverEntity
-import com.tripletres.platformscience.data.repo.ShipmentDriverRepository
-import com.tripletres.platformscience.data.repo.ShipmentRepository
 import com.tripletres.platformscience.domain.AssignDriversToShipmentsUseCase
 import com.tripletres.platformscience.domain.LoadDriversShipmentsUseCase
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.util.LogUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +37,7 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             loadDriversShipmentsUseCase()
             assignDriversToShipmentsUseCase()
-            val drivers: List<DriverItem> = emptyList() //repo.getDrivers().asDriverItemList()
+            val drivers: List<DriverItem> = emptyList()
             LogUtils.d("Drivers: ${drivers.toString()}")
             updateDrivers(drivers)
             showLoading(false)
@@ -60,13 +56,4 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-}
-
-//TODO: auxiliary and change for domain ones
-private fun List<DriverEntity>.asDriverItemList(): List<DriverItem> {
-    return this.map { it.asDriverItem() }
-}
-
-private fun DriverEntity.asDriverItem(): DriverItem {
-    return DriverItem(id, name)
 }
