@@ -41,7 +41,7 @@ class ShipmentDriverAssignation(
         shipments: List<Shipment>
     ): MutableList<MutableList<SuitabilityScore>> {
         val driversAssigned = mutableListOf<Driver>()
-        val allSuitabilityScores = mutableListOf<MutableList<SuitabilityScore>>()
+        val allSuitabilityScores = MutableList<MutableList<SuitabilityScore>>(shipments.size) { mutableListOf()} //mutableListOf<MutableList<SuitabilityScore>>()
 
         //Prepare drivers name with vowels and consonants
         val preparedDrivers = drivers.map { driver -> prepareDriverName(driver) }
