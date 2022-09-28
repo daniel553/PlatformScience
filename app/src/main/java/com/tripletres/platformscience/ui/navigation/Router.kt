@@ -5,6 +5,6 @@ package com.tripletres.platformscience.ui.navigation
  * @param route to be evaluated
  */
 sealed class Router(val route: String) {
-    object MainViewScreen: Router("MainViewScreen")
+    object SplashScreen: Router("LoadingScreen")
     object DriverListScreen: Router("DriverListScreen")
 }
