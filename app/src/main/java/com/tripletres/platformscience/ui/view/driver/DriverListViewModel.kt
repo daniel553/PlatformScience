@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tripletres.platformscience.data.db.driver.DriverEntity
 import com.tripletres.platformscience.data.repo.DriverRepository
+import com.tripletres.platformscience.domain.GetAssignedDriversToShipmentsUseCase
 import com.tripletres.platformscience.ui.model.DriverItem
+import com.tripletres.platformscience.ui.model.asDriverItemList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,8 +20,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class DriverListViewModel @Inject constructor(
-    //TODO: inject use case
-    private val driverRepository: DriverRepository
+    private val getAssignedDriversToShipmentsUseCase: GetAssignedDriversToShipmentsUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(DriverListUiState())
     val uiState = _uiState.asStateFlow()
@@ -27,9 +28,9 @@ class DriverListViewModel @Inject constructor(
     fun loadDriverList() {
         viewModelScope.launch(Dispatchers.IO) {
             updateLoading(true)
-            val drivers = driverRepository.getDriversFromDB()
+            val drivers = getAssignedDriversToShipmentsUseCase().asDriverItemList()
             if(drivers.isNotEmpty()) {
-                updateDriverList(drivers.asDriverItemList())
+                updateDriverList(drivers)
                 updateLoading(false)
             }
         }
@@ -52,10 +53,3 @@ class DriverListViewModel @Inject constructor(
     }
 }
 
-private fun List<DriverEntity>.asDriverItemList(): List<DriverItem> {
-    return this.map { it.asDriverItem() }
-}
-
-private fun DriverEntity.asDriverItem(): DriverItem {
-    return DriverItem(this.id, this.name)
-}
