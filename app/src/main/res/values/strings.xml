@@ -5,4 +5,7 @@
     <string name="splash_fetching">Fetching data…</string>
     <string name="splash_assigning">Assigning drivers to shipments…</string>
     <string name="splash_done">Starting…</string>
+
+    //Drivers
+    <string name="driver_start_route">Start route</string>
 </resources>
