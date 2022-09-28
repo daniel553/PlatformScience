@@ -8,4 +8,5 @@
 
     //Drivers
     <string name="driver_start_route">Start route</string>
+    <string name="driver_ss">Suitability Score</string>
 </resources>
