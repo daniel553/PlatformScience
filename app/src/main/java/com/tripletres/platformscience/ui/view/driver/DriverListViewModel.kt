@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.tripletres.platformscience.domain.GetAssignedDriversToShipmentsUseCase
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.ui.model.asDriverItemList
+import com.tripletres.platformscience.util.LogUtils
 import com.tripletres.platformscience.util.ProfileUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,10 @@ class DriverListViewModel @Inject constructor(
                 updateLoading(false)
             }
         }
+    }
+
+    fun showReloadDialog(show: Boolean) {
+        _uiState.update { state -> state.copy(isReloadDialog = show) }
     }
 
     private fun beautifyProfile(drivers: List<DriverItem>): List<DriverItem> {

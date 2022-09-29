@@ -4,5 +4,6 @@ import com.tripletres.platformscience.ui.model.DriverItem
 
 data class DriverListUiState(
     val isLoading: Boolean = false,
-    val drivers: List<DriverItem> = emptyList()
+    val drivers: List<DriverItem> = emptyList(),
+    val isReloadDialog: Boolean = false
 )
