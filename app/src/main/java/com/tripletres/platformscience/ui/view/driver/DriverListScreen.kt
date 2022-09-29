@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.tripletres.platformscience.R
 import com.tripletres.platformscience.ui.model.DriverItem
+import com.tripletres.platformscience.ui.navigation.Router
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -33,7 +34,11 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
             })
         },
         content = {
-            DriverListView(driverUiState.drivers)
+            DriverListView(driverUiState.drivers) {
+                navController.navigate(
+                    route = Router.DriverDetailsScreen.buildRoute(it.id.toString())
+                )
+            }
         },
         modifier = Modifier.fillMaxSize()
     )
@@ -41,13 +46,13 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
 }
 
 @Composable
-fun DriverListView(drivers: List<DriverItem>) {
+fun DriverListView(drivers: List<DriverItem>, onDriverSelected: (driver: DriverItem) -> Unit) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(drivers) { driver ->
             DriverItemView(driver) {
-                //TODO: pressed.
+                onDriverSelected(driver)
             }
         }
     }

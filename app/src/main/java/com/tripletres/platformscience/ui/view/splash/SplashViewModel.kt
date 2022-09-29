@@ -32,7 +32,7 @@ class SplashViewModel @Inject constructor(
 
     private fun fetchShipmentsWithDrivers() {
         viewModelScope.launch(Dispatchers.IO) {
-            loadDriversShipmentsUseCase()
+            loadDriversShipmentsUseCase(getCachedSetting())
             updateStatus(SplashUiStatus.ASSIGNING)
             assignDriversToShipmentsUseCase()
             updateStatus(SplashUiStatus.DONE)
@@ -44,5 +44,7 @@ class SplashViewModel @Inject constructor(
     private fun updateStatus(newStatus: SplashUiStatus) {
         _uiState.update { state -> state.copy(status = newStatus) }
     }
+
+    private fun getCachedSetting() = true //TODO: settings from user
 
 }

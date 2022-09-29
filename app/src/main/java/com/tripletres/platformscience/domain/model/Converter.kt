@@ -30,7 +30,8 @@ fun DriverItem.asDriver(): Driver = Driver(id, name, null, 0f)
 /**
  * Parse driver item from ui to Domain driver
  */
-fun DriverEntity.asDriver(): Driver = Driver(id, name, null, 0f)
+fun DriverEntity.asDriver(): Driver =
+    Driver(id, name, assignation?.shipment?.asShipment(), assignation?.suitabilityScore)
 
 fun ShipmentItem.asShipment(): Shipment = Shipment(id, address)
 

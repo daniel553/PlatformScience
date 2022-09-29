@@ -11,7 +11,7 @@ interface DriverDao {
     suspend fun getAll(): List<DriverEntity>
 
     @Query("SELECT * FROM driver_table WHERE driver_id = :id")
-    suspend fun getById(id: Int): DriverEntity
+    suspend fun getById(id: Long): DriverEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(driverEntity: DriverEntity)

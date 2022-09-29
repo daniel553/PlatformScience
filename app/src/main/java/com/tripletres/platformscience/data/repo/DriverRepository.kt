@@ -14,5 +14,6 @@ class DriverRepository @Inject constructor(
     suspend fun saveDrivers(drivers: List<DriverEntity>) = driverDao.insertAll(drivers)
     suspend fun getDriversFromDB(): List<DriverEntity> = driverDao.getAll()
     suspend fun clearDriversFromDB() = driverDao.deleteAll()
+    suspend fun getDriverByIdFromDB(id: Long): DriverEntity = driverDao.getById(id)
 
 }
