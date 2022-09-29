@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -17,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,6 +28,7 @@ import androidx.navigation.NavController
 import com.tripletres.platformscience.R
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.ui.model.ShipmentItem
+import com.tripletres.platformscience.ui.theme.Success40
 
 /**
  * Shows the driver item details
@@ -56,7 +59,7 @@ fun DriverDetailsMainView(navController: NavController, viewModel: DriverDetails
             sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             sheetPeekHeight = 240.dp,
             sheetElevation = 4.dp,
-            sheetBackgroundColor = MaterialTheme.colors.primarySurface,
+            sheetBackgroundColor = MaterialTheme.colors.surface,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_route), contentDescription = "route",
@@ -131,12 +134,13 @@ fun DriverDetailsBottom(driver: DriverItem) {
                 modifier = Modifier.padding(end = 8.dp)
             )
             Badge(
-                backgroundColor = MaterialTheme.colors.secondary
+                backgroundColor = Success40
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Star,
                     contentDescription = "",
-                    modifier = Modifier.width(16.dp)
+                    modifier = Modifier.width(16.dp),
+                    tint = contentColorFor(backgroundColor)
                 )
                 Text(
                     text = driver.ss.toString(),
@@ -148,10 +152,11 @@ fun DriverDetailsBottom(driver: DriverItem) {
         Button(
             onClick = { /*TODO*/ },
             shape = RoundedCornerShape(32.dp),
-            modifier = Modifier.padding(top = 16.dp, bottom = 32.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.driver_start_route).uppercase(),
+                color = Color.White
             )
             Icon(
                 imageVector = Icons.Default.LocationOn,

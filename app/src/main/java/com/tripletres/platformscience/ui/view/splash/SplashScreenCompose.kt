@@ -2,7 +2,10 @@ package com.tripletres.platformscience.ui.view.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,10 +35,11 @@ fun SplashScreenCompose(navController: NavHostController, viewModel: SplashViewM
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.ic_logo_white),
                 contentDescription = "",
                 modifier = Modifier
-                    .width(450.dp)
+                    .width(220.dp)
+                    .height(120.dp)
                     .padding(8.dp)
             )
             Text(

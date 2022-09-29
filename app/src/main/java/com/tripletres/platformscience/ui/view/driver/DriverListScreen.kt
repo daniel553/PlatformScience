@@ -1,6 +1,5 @@
 package com.tripletres.platformscience.ui.view.driver
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,13 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,7 +27,6 @@ import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.ui.model.ShipmentItem
 import com.tripletres.platformscience.ui.navigation.Router
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DriverListViewScreen(navController: NavController, viewModel: DriverListViewModel) {
     val driverUiState by viewModel.uiState.collectAsState()
@@ -46,8 +44,22 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
                 )
             }
         },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { viewModel.showReloadDialog(true) }) {
+                Icon(imageVector = Icons.Default.Refresh, contentDescription = "")
+            }
+        },
         modifier = Modifier.fillMaxSize()
     )
+
+    if (driverUiState.isReloadDialog) {
+        DriverListReloadDialog { confirm ->
+            if (confirm) {
+                viewModel.loadDriverList()
+            }
+            viewModel.showReloadDialog(false)
+        }
+    }
 
 }
 
@@ -55,12 +67,18 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
 fun DriverListView(drivers: List<DriverItem>, onDriverSelected: (driver: DriverItem) -> Unit) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     ) {
+        item() {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         items(drivers) { driver ->
             DriverItemView(driver) {
                 onDriverSelected(driver)
             }
+        }
+        item() {
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -125,7 +143,7 @@ fun DriverItemView(driver: DriverItem, onPressed: (id: Long) -> Unit) {
         }
 
         Image(
-            painter = painterResource(id = R.drawable.ic_man),
+            painter = painterResource(id = driver.profilePic ?: R.drawable.ic_man),
             contentDescription = "",
             modifier = Modifier
                 .width(80.dp)
