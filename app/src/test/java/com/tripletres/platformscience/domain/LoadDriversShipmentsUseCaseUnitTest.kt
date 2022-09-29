@@ -43,7 +43,7 @@ class LoadDriversShipmentsUseCaseUnitTest {
                 driversShipmentsRepository,
                 driverRepository,
                 shipmentRepository
-            ).invoke()
+            ).invoke(false)
 
             //Then db is clear and success
             coVerify { driverRepository.clearDriversFromDB() }
