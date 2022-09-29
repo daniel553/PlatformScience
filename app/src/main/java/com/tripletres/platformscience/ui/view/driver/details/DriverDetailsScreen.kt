@@ -63,20 +63,22 @@ fun DriverDetailsMainView(navController: NavController, viewModel: DriverDetails
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .width(52.dp)
-                    .height(52.dp)
-                    .clip(CircleShape)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = ""
-                )
-            }
+
         }
+    }
+
+    Button(
+        onClick = { navController.popBackStack() },
+        modifier = Modifier
+            .padding(16.dp)
+            .width(52.dp)
+            .height(52.dp)
+            .clip(CircleShape)
+    ) {
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowLeft,
+            contentDescription = ""
+        )
     }
 
 }
