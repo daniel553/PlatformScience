@@ -125,7 +125,7 @@ fun DriverItemView(driver: DriverItem, onPressed: (id: Long) -> Unit) {
         }
 
         Image(
-            painter = painterResource(id = R.drawable.ic_man),
+            painter = painterResource(id = driver.profilePic ?: R.drawable.ic_man),
             contentDescription = "",
             modifier = Modifier
                 .width(80.dp)
