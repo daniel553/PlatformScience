@@ -3,7 +3,6 @@ package com.tripletres.platformscience.domain
 import com.tripletres.platformscience.data.repo.DriverRepository
 import com.tripletres.platformscience.data.repo.ShipmentDriverRepository
 import com.tripletres.platformscience.data.repo.ShipmentRepository
-import com.tripletres.platformscience.domain.model.Driver
 import javax.inject.Inject
 
 /**
@@ -14,12 +13,19 @@ class LoadDriversShipmentsUseCase @Inject constructor(
     val driverRepository: DriverRepository,
     val shipmentRepository: ShipmentRepository
 ) {
-    suspend operator fun invoke(): Boolean {
-        //Clear db
-        driverRepository.clearDriversFromDB()
-        shipmentRepository.clearShipmentsFromDB()
+    suspend operator fun invoke(useCached: Boolean?): Boolean {
+        val cached = driverRepository.getDriversFromDB()
 
-        //Fetch
-        return driversShipmentsRepository.fetchShipmentsWithDriversFromApi()
+        return if (cached.isNotEmpty() && useCached == true) {
+            //Do not fetch, just return an ok
+            true
+        } else {
+            //Clear db
+            driverRepository.clearDriversFromDB()
+            shipmentRepository.clearShipmentsFromDB()
+
+            //Fetch
+            driversShipmentsRepository.fetchShipmentsWithDriversFromApi()
+        }
     }
 }
