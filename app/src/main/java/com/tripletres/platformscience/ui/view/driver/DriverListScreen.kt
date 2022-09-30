@@ -38,7 +38,7 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
     Scaffold(
         topBar = {
             TopAppBar(title = {
-                Text(text = "Drivers")
+                Text(text = stringResource(id = R.string.driver_list_title).uppercase())
             })
         },
         content = {
