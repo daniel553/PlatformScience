@@ -5,7 +5,7 @@ import com.tripletres.platformscience.domain.model.Driver
 import com.tripletres.platformscience.domain.model.Shipment
 
 
-fun ssMockList(): MutableList<MutableList<ShipmentDriverAssignation.SuitabilityScore>> {
+fun ssMockList(major: Boolean = false): MutableList<MutableList<ShipmentDriverAssignation.SuitabilityScore>> {
     val matrix = mutableListOf<MutableList<ShipmentDriverAssignation.SuitabilityScore>>()
     val singleSS = arrayListOf(
         arrayListOf(9f, 2f, 7f, 8f),
@@ -14,10 +14,24 @@ fun ssMockList(): MutableList<MutableList<ShipmentDriverAssignation.SuitabilityS
         arrayListOf(7f, 6f, 9f, 4f)
     )
 
-    for (i in (0..3)) {
+    val mayorSS = arrayListOf(
+        arrayListOf(11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(9.0f, 10.5f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(11.25f, 13.5f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(13.5f, 6.0f, 13.5f, 6.0f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(11.25f, 12.0f, 11.25f, 12.0f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(9.0f, 10.5f, 9.0f, 10.5f, 9.0f, 10.5f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(11.25f, 10.5f, 11.25f, 10.5f, 11.25f, 10.5f, 11.25f, 11.25f, 11.25f, 11.25f),
+        arrayListOf(9.0f, 10.5f, 9.0f, 10.5f, 9.0f, 10.5f, 9.0f, 10.5f, 11.25f, 11.25f),
+        arrayListOf(9.0f, 15.0f, 9.0f, 15.0f, 9.0f, 15.0f, 9.0f, 15.0f, 9.0f, 11.25f),
+        arrayListOf(11.25f, 7.5f, 11.25f, 7.5f, 11.25f, 7.5f, 11.25f, 7.5f, 11.25f, 7.5f)
+    )
+    val n = if(major) mayorSS.size else singleSS.size
+
+    for (i in (0..n.minus(1))) {
         val mj = mutableListOf<ShipmentDriverAssignation.SuitabilityScore>()
-        for (j in (0..3)) {
-            val mock = ssMock(i, j, singleSS[i][j])
+        for (j in (0..n.minus(1))) {
+            val mock = ssMock(i, j, if(major)mayorSS[i][j] else singleSS[i][j])
             mj.add(mock)
         }
         matrix.add(mj)

@@ -3,6 +3,7 @@ package com.tripletres.platformscience.domain.model
 import com.tripletres.platformscience.data.db.driver.DriverAssignationEntity
 import com.tripletres.platformscience.data.db.driver.DriverEntity
 import com.tripletres.platformscience.data.db.shipment.ShipmentEntity
+import com.tripletres.platformscience.domain.algorithm.AssignationAlgorithmType
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.ui.model.ShipmentItem
 
@@ -57,3 +58,14 @@ fun Driver.asDriverEntity(): DriverEntity {
 }
 
 private fun Shipment.asShipmentEntity(): ShipmentEntity = ShipmentEntity(this.id, this.address)
+
+/**
+ * Algorithm type converter
+ */
+fun String.toAssignationAlgorithmType(): AssignationAlgorithmType {
+    return when (this) {
+        "GREEDY" -> AssignationAlgorithmType.GREEDY
+        "BRANCH_BOUND" -> AssignationAlgorithmType.BRANCH
+        else -> TODO("No available")
+    }
+}

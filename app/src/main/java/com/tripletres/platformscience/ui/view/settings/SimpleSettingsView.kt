@@ -21,15 +21,15 @@ import com.tripletres.platformscience.R
 @Composable
 fun SimpleSettingsView(modifier: Modifier? = Modifier) {
     val viewModel: SimpleSettingsViewModel = hiltViewModel()
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
     Column(modifier = modifier ?: Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Switch(
-                checked = uiState.dbOrApi,
-                onCheckedChange = { viewModel.updateDbOrApi(!uiState.dbOrApi) })
+                checked = uiState.value.dbOrApi,
+                onCheckedChange = { viewModel.updateDbOrApi(!uiState.value.dbOrApi) })
 
             Text(text =
-            "${stringResource(id = R.string.setting_db_or_api)}: ${uiState.dbOrApiLabel}")
+            "${stringResource(id = R.string.setting_db_or_api)}: ${uiState.value.dbOrApiLabel}")
         }
         Divider()
         Text(
@@ -38,8 +38,8 @@ fun SimpleSettingsView(modifier: Modifier? = Modifier) {
             modifier = Modifier.padding(top = 8.dp)
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            uiState.algorithms.forEach { algorithm ->
-                RadioButton(selected = algorithm == uiState.algorithmSelected, onClick = {
+            uiState.value.algorithms.forEach { algorithm ->
+                RadioButton(selected = algorithm == uiState.value.algorithmSelected, onClick = {
                     viewModel.updateAlgorithmSelected(algorithm)
                 })
                 Text(

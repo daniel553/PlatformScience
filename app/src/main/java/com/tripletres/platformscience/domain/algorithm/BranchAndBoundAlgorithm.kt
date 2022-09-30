@@ -37,8 +37,7 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
     private var n = 0
 
     override fun getBestMatching(input: MutableList<MutableList<SuitabilityScore>>): List<Driver> {
-        n = input.size
-        return execute(matrix = input)
+        return execute(matrix = prepareInput(input))
     }
 
     private fun execute(matrix: MutableList<MutableList<SuitabilityScore>>): List<Driver> {
@@ -46,7 +45,7 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
         val priorityQueue = mutableListOf<Node>()
 
         // Initialize nodes with root of search (dummy)
-        val assigned = HashMap<Shipment, Boolean>()
+        val assigned = mutableListOf<Shipment>()
         val root = Node.dummy()
         var minOut = root
         priorityQueue.add(root)
@@ -70,12 +69,12 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
                 //For each shipment find unassigned shipments
                 matrix[i].forEachIndexed { j, it ->
                     //If unassigned
-                    if (!min.assigned.containsKey(it.shipment)) {
+                    if (!min.assigned.contains(it.shipment)) {
                         val child = Node.newNode(
                             driver = matrix[i][j].driver,
                             driverIndex = i, // should have here?
                             shipment = matrix[i][j].shipment,
-                            assigned = HashMap(assigned),
+                            assigned = assigned.toMutableList(),
                             parent = min
                         )
                         //Cost for ancestor nodes including current node
@@ -99,7 +98,7 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
     private fun getLowestSSAfterDriverAssignedShipment(
         matrix: MutableList<MutableList<SuitabilityScore>>,
         driver: Int,
-        assigned: HashMap<Shipment, Boolean>,
+        assigned: MutableList<Shipment>
     ): Float {
         var cost = 0f;
 
@@ -116,8 +115,8 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
             matrix[i].forEachIndexed { j, it ->
 
                 //If shipment is unassigned
-                if (!assigned.containsKey(it.shipment) &&
-                    available.containsKey(it.shipment) &&
+                if (!assigned.contains(it.shipment) &&
+                    available.contains(it.shipment) &&
                     it.ss < min
                 ) {
                     //Store shipment number
@@ -172,14 +171,14 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
         var driver: Driver,
         var driverIndex: Int = 0,
         var shipment: Shipment,
-        var assigned: HashMap<Shipment, Boolean> = HashMap(),
+        var assigned: MutableList<Shipment> = mutableListOf(),
     ) {
         companion object {
             fun newNode(
                 driver: Driver,
                 driverIndex: Int,
                 shipment: Shipment,
-                assigned: HashMap<Shipment, Boolean> = HashMap(),
+                assigned: MutableList<Shipment> = mutableListOf(),
                 parent: Node? = null,
             ): Node {
                 val node = Node(
@@ -189,7 +188,7 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
                     parent = parent,
                     driverIndex = driverIndex
                 )
-                node.assigned[shipment] = true
+                node.assigned.add(shipment)
 
                 return node
             }
@@ -197,6 +196,34 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
             fun dummy() = newNode(
                 Driver(0, "DUMMY", null, null), -1,
                 Shipment(0, ""))
+        }
+    }
+
+    /**
+     * Simple preparation driver x, shipment y
+     */
+    private fun prepareInput(input: MutableList<MutableList<SuitabilityScore>>): MutableList<MutableList<SuitabilityScore>> {
+        //Drivers must be x, shipments must be y
+        //must be squared nxn
+        n = input.size
+
+        return if (n > 1 && input[0][0].driver != input[1][0].driver) {
+            input // drivers in x
+        } else {
+            //Need to traspose :/
+            val dummy = input[0][0].copy()
+            val transpose = MutableList(n) { MutableList(n) { dummy } }
+
+            println("-------INPUT--------")
+            for (i in 0 until n) {
+                for (j in 0 until n) {
+                    transpose[j][i] = input[i][j]
+                    print(transpose[i][j].ss)
+                    print("f,")
+                }
+                println()
+            }
+            transpose
         }
     }
 

@@ -20,11 +20,15 @@ class SimpleSettingsUtil @Inject constructor(@ApplicationContext val context: Co
         const val DB_OR_API_API = "API" //API option
         const val ALGORITHM: String = "ALGORITHM"
         const val ALGORITHM_GREEDY: String = "GREEDY"
-        const val ALGORITHM_DEF: String = ALGORITHM_GREEDY //TODO: change for constant
+        const val ALGORITHM_BRANCH_BOUND: String = "BRANCH_BOUND"
+        const val ALGORITHM_DEF: String = ALGORITHM_GREEDY
 
         //TODO: Add more algorithms
         fun allAlgorithms(): List<String> {
-            return listOf(ALGORITHM_GREEDY)
+            return listOf(
+                ALGORITHM_GREEDY,
+                ALGORITHM_BRANCH_BOUND
+            )
         }
 
     }

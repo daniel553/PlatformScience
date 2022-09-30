@@ -2,11 +2,11 @@ package com.tripletres.platformscience.domain
 
 import com.tripletres.platformscience.data.repo.DriverRepository
 import com.tripletres.platformscience.data.repo.ShipmentRepository
+import com.tripletres.platformscience.domain.algorithm.AssignationAlgorithmType
+import com.tripletres.platformscience.domain.algorithm.BranchAndBoundAlgorithm
 import com.tripletres.platformscience.domain.algorithm.GreedyAssignationAlgorithm
-import com.tripletres.platformscience.domain.model.Driver
-import com.tripletres.platformscience.domain.model.Shipment
-import com.tripletres.platformscience.domain.model.asDriverList
-import com.tripletres.platformscience.domain.model.asShipmentList
+import com.tripletres.platformscience.domain.algorithm.IAssignationAlgorithm
+import com.tripletres.platformscience.domain.model.*
 import javax.inject.Inject
 
 /**
@@ -18,11 +18,14 @@ class AssignDriversToShipmentsUseCase @Inject constructor(
     private val saveDriversAssigned: SaveDriversAssignedToShipmentsUseCase,
 ) {
 
-    suspend operator fun invoke(): List<Driver> {
+    // Can be changed for your favorite algorithm
+    private val defaultAlgorithm = AssignationAlgorithmType.GREEDY.name
+
+    suspend operator fun invoke(algorithm: String?): List<Driver> {
         val drivers = driverRepository.getDriversFromDB().asDriverList()
         val shipments = shipmentRepository.getShipmentsFromDB().asShipmentList()
 
-        val driverAssigned = assignDriversToShipment(drivers, shipments)
+        val driverAssigned = assignDriversToShipment(drivers, shipments, algorithm)
         //Save in assigned drivers
         saveDriversAssigned(driverAssigned)
         return driverAssigned
@@ -31,8 +34,23 @@ class AssignDriversToShipmentsUseCase @Inject constructor(
     /**
      * Perform assignation of shipments to drivers
      */
-    private fun assignDriversToShipment(drivers: List<Driver>, shipments: List<Shipment>): List<Driver> {
-        return ShipmentDriverAssignation(GreedyAssignationAlgorithm()).execute(drivers, shipments)
+    private fun assignDriversToShipment(
+        drivers: List<Driver>,
+        shipments: List<Shipment>,
+        algorithm: String?,
+    ): List<Driver> {
+        return ShipmentDriverAssignation(defineAlgorithm(algorithm)).execute(drivers, shipments)
+    }
+
+    /**
+     * Gets assignation algorithm from type or default
+     */
+    private fun defineAlgorithm(algorithm: String?): IAssignationAlgorithm {
+        val type = algorithm ?: defaultAlgorithm
+        return when (type.toAssignationAlgorithmType()) {
+            AssignationAlgorithmType.GREEDY -> GreedyAssignationAlgorithm()
+            AssignationAlgorithmType.BRANCH -> BranchAndBoundAlgorithm()
+        }
     }
 
 }

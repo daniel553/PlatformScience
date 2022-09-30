@@ -6,6 +6,10 @@ import com.tripletres.platformscience.domain.AssignDriversToShipmentsUseCase
 import com.tripletres.platformscience.domain.LoadDriversShipmentsUseCase
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.util.LogUtils
+import com.tripletres.platformscience.util.SimpleSettingsUtil
+import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.ALGORITHM
+import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.DB_OR_API
+import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.DB_OR_API_DEF
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +25,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val loadDriversShipmentsUseCase: LoadDriversShipmentsUseCase,
     private val assignDriversToShipmentsUseCase: AssignDriversToShipmentsUseCase,
+    private val settings: SimpleSettingsUtil,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SplashUiState())
@@ -34,10 +39,8 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             loadDriversShipmentsUseCase(getCachedSetting())
             updateStatus(SplashUiStatus.ASSIGNING)
-            assignDriversToShipmentsUseCase()
+            assignDriversToShipmentsUseCase(getAlgorithmSetting())
             updateStatus(SplashUiStatus.DONE)
-            val drivers: List<DriverItem> = emptyList()
-            LogUtils.d("Drivers: ${drivers.toString()}")
         }
     }
 
@@ -45,6 +48,7 @@ class SplashViewModel @Inject constructor(
         _uiState.update { state -> state.copy(status = newStatus) }
     }
 
-    private fun getCachedSetting() = true //TODO: settings from user
+    private fun getCachedSetting() = settings.getPreference(DB_OR_API) == DB_OR_API_DEF
+    private fun getAlgorithmSetting() = settings.getPreference(ALGORITHM)
 
 }

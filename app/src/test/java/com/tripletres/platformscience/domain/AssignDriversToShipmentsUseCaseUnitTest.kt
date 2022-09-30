@@ -24,6 +24,8 @@ class AssignDriversToShipmentsUseCaseUnitTest {
     @RelaxedMockK
     lateinit var saveDriversAssigned: SaveDriversAssignedToShipmentsUseCase
 
+    private var algorithmString = "GREEDY"
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -38,7 +40,7 @@ class AssignDriversToShipmentsUseCaseUnitTest {
                 driverRepository,
                 shipmentRepository,
                 saveDriversAssigned
-            ).invoke()
+            ).invoke(algorithmString)
 
             //Then get db data
             assertNotNull(res)
@@ -55,7 +57,7 @@ class AssignDriversToShipmentsUseCaseUnitTest {
                 driverRepository,
                 shipmentRepository,
                 saveDriversAssigned
-            ).invoke()
+            ).invoke(algorithmString)
 
             //Then save drivers assigned
             assertNotNull(res)
