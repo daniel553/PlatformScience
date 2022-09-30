@@ -1,7 +1,9 @@
 package com.tripletres.platformscience.ui.view.driver
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,6 +28,8 @@ import com.tripletres.platformscience.R
 import com.tripletres.platformscience.ui.model.DriverItem
 import com.tripletres.platformscience.ui.model.ShipmentItem
 import com.tripletres.platformscience.ui.navigation.Router
+import com.tripletres.platformscience.ui.theme.Loading40
+import com.tripletres.platformscience.ui.theme.Loading80
 
 @Composable
 fun DriverListViewScreen(navController: NavController, viewModel: DriverListViewModel) {
@@ -43,6 +47,21 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
                     route = Router.DriverDetailsScreen.buildRoute(it.id.toString())
                 )
             }
+            if (driverUiState.isLoading) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            if (isSystemInDarkTheme())
+                                Loading80 else Loading40)
+                ) {
+                    CircularProgressIndicator(Modifier
+                        .height(52.dp)
+                        .width(52.dp))
+                }
+
+            }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { viewModel.showReloadDialog(true) }) {
@@ -55,7 +74,7 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
     if (driverUiState.isReloadDialog) {
         DriverListReloadDialog { confirm ->
             if (confirm) {
-                viewModel.loadDriverList()
+                viewModel.loadDriverList(confirm)
             }
             viewModel.showReloadDialog(false)
         }
