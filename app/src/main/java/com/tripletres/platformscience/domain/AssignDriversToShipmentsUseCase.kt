@@ -19,7 +19,7 @@ class AssignDriversToShipmentsUseCase @Inject constructor(
 ) {
 
     // Can be changed for your favorite algorithm
-    private val defaultAlgorithm = AssignationAlgorithmType.BRANCH.name
+    private val defaultAlgorithm = AssignationAlgorithmType.GREEDY.name
 
     suspend operator fun invoke(algorithm: String?): List<Driver> {
         val drivers = driverRepository.getDriversFromDB().asDriverList()

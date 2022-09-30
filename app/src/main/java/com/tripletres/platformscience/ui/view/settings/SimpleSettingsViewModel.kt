@@ -21,7 +21,7 @@ class SimpleSettingsViewModel @Inject constructor(
     fun updateDbOrApi(state: Boolean) {
         val dbOrApi = if (state) SimpleSettingsUtil.DB_OR_API_DEF else SimpleSettingsUtil.DB_OR_API_API
             settings.setPreference(SimpleSettingsUtil.DB_OR_API, dbOrApi)
-
+        updateState()
     }
 
     fun updateAlgorithmSelected(algorithm: String) {
@@ -44,6 +44,6 @@ class SimpleSettingsViewModel @Inject constructor(
     /**
      * Call update state when saved to shared preferences
      */
-    private fun updateState(newState: SimpleSettingsUtil) =_uiState.update { fromSettings() }
+    private fun updateState() =_uiState.update { fromSettings() }
 
 }

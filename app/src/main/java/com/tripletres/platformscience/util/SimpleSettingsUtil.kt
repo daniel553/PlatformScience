@@ -21,7 +21,7 @@ class SimpleSettingsUtil @Inject constructor(@ApplicationContext val context: Co
         const val ALGORITHM: String = "ALGORITHM"
         const val ALGORITHM_GREEDY: String = "GREEDY"
         const val ALGORITHM_BRANCH_BOUND: String = "BRANCH_BOUND"
-        const val ALGORITHM_DEF: String = ALGORITHM_BRANCH_BOUND
+        const val ALGORITHM_DEF: String = ALGORITHM_GREEDY
 
         //TODO: Add more algorithms
         fun allAlgorithms(): List<String> {
