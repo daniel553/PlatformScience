@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlatformScience</string>
+    <string name="app_name">Platform Science Exercise</string>
 
     //Splash
     <string name="splash_fetching">Fetching data…</string>
