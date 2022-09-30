@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">PlatformScience</string>
+    <string name="app_name">Platform Science Exercise</string>
+
+    //Splash
+    <string name="splash_fetching">Fetching data…</string>
+    <string name="splash_assigning">Assigning drivers to shipments…</string>
+    <string name="splash_done">Starting…</string>
+
+    //Drivers
+    <string name="driver_start_route">Start route</string>
+    <string name="driver_ss">Suitability Score</string>
+    <string name="driver_assigned_route">Has an assigned route: </string>
+    <string name="driver_reload_title">Do you want to reload?</string>
+    <string name="driver_list_title">Drivers</string>
+
+    //Settings
+    <string name="setting_db_or_api">Source set</string>
+    <string name="setting_db">DB</string>
+    <string name="setting_api">API</string>
+
+    //Algorithms
+    <string name="algorithm">Algorithm:</string>
+    <string name="algorithm_greedy">Greedy</string>
+    <string name="algorithm_branch_and_bound">Branch and bound</string>
+
+    //Common
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
