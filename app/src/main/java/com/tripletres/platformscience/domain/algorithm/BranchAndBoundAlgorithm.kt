@@ -1,6 +1,7 @@
 package com.tripletres.platformscience.domain.algorithm
 
 import com.tripletres.platformscience.domain.ShipmentDriverAssignation.SuitabilityScore
+import com.tripletres.platformscience.domain.algorithm.BranchAndBoundAlgorithm.Node
 import com.tripletres.platformscience.domain.model.Driver
 import com.tripletres.platformscience.domain.model.Shipment
 
@@ -33,13 +34,14 @@ import com.tripletres.platformscience.domain.model.Shipment
  */
 class BranchAndBoundAlgorithm : IAssignationAlgorithm {
 
+    private var n = 0
+
     override fun getBestMatching(input: MutableList<MutableList<SuitabilityScore>>): List<Driver> {
+        n = input.size
         return execute(matrix = input)
     }
 
-    fun execute(matrix: MutableList<MutableList<SuitabilityScore>>): List<Driver> {
-        val n = matrix[0].size
-
+    private fun execute(matrix: MutableList<MutableList<SuitabilityScore>>): List<Driver> {
         //Priority queue for nodes that are "live"
         val priorityQueue = mutableListOf<Node>()
 
@@ -81,7 +83,7 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
 
                         //Calculate lower ss (that includes the path ss)
                         child.ss = child.pathSS +
-                                getLowestSSAfterDriverAssignedShipment(matrix, i, j, child.assigned)
+                                getLowestSSAfterDriverAssignedShipment(matrix, i, child.assigned)
                         child.driverIndex = i
                         //Add child node to queue
                         priorityQueue.add(child)
@@ -94,14 +96,12 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
         return getBuildNodes(minOut)
     }
 
-    fun getLowestSSAfterDriverAssignedShipment(
+    private fun getLowestSSAfterDriverAssignedShipment(
         matrix: MutableList<MutableList<SuitabilityScore>>,
         driver: Int,
-        shipment: Int,
         assigned: HashMap<Shipment, Boolean>,
     ): Float {
         var cost = 0f;
-        val n = matrix[driver].size
 
         //Store available shipment
         val available = matrix[driver].associate { it.shipment to true }
