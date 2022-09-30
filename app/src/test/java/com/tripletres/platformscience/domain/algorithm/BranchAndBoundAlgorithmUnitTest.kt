@@ -14,6 +14,7 @@ class BranchAndBoundAlgorithmUnitTest {
         //Given branching and bound algorithm with mock data
         val algorithm = BranchAndBoundAlgorithm()
         val input = ssMockList()
+        val minSS = 13f
 
         //When executing algorithm
         val matching = algorithm.getBestMatching(input = input)
@@ -25,5 +26,8 @@ class BranchAndBoundAlgorithmUnitTest {
             assertNotNull(it.ss)
             assertNotNull(it.shipment)
         }
+        var ss = 0f
+        matching.map { it.ss }.toList().forEach { ss += it ?: 0f }
+        assertEquals(minSS, ss)
     }
 }

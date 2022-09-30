@@ -152,7 +152,7 @@ class BranchAndBoundAlgorithm : IAssignationAlgorithm {
             aux?.let {
                 driverList.add(it.driver.copy(
                     shipment = it.shipment,
-                    ss = it.ss
+                    ss = it.driver.ss
                 ))
                 aux = it.parent
             }
