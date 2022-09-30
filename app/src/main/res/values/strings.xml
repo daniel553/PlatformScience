@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlatformScience</string>
+    <string name="app_name">Platform Science Exercise</string>
 
     //Splash
     <string name="splash_fetching">Fetching data…</string>
@@ -11,6 +11,7 @@
     <string name="driver_ss">Suitability Score</string>
     <string name="driver_assigned_route">Has an assigned route: </string>
     <string name="driver_reload_title">Do you want to reload?</string>
+    <string name="driver_list_title">Drivers</string>
 
     //Settings
     <string name="setting_db_or_api">Source set</string>
