@@ -14,6 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.tripletres.platformscience.R
+import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.ALGORITHM_BRANCH_BOUND
+import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.ALGORITHM_GREEDY
 
 /**
  * Simple settings view
@@ -37,15 +39,16 @@ fun SimpleSettingsView(modifier: Modifier? = Modifier) {
             style = MaterialTheme.typography.caption,
             modifier = Modifier.padding(top = 8.dp)
         )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            uiState.value.algorithms.forEach { algorithm ->
+        uiState.value.algorithms.forEach { algorithm ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(selected = algorithm == uiState.value.algorithmSelected, onClick = {
                     viewModel.updateAlgorithmSelected(algorithm)
                 })
                 Text(
                     text = stringResource(
                         id = when (algorithm) {
-
+                            ALGORITHM_GREEDY -> R.string.algorithm_greedy
+                            ALGORITHM_BRANCH_BOUND -> R.string.algorithm_branch_and_bound
                             else -> R.string.algorithm_greedy
                         }))
             }
