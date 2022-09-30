@@ -20,6 +20,7 @@
     //Algorithms
     <string name="algorithm">Algorithm:</string>
     <string name="algorithm_greedy">Greedy</string>
+    <string name="algorithm_branch_and_bound">Branch and bound</string>
 
     //Common
     <string name="ok">OK</string>
