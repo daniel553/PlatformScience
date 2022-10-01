@@ -2,10 +2,7 @@ package com.tripletres.platformscience.domain
 
 import com.tripletres.platformscience.data.repo.DriverRepository
 import com.tripletres.platformscience.data.repo.ShipmentRepository
-import com.tripletres.platformscience.domain.algorithm.AssignationAlgorithmType
-import com.tripletres.platformscience.domain.algorithm.BranchAndBoundAlgorithm
-import com.tripletres.platformscience.domain.algorithm.GreedyAssignationAlgorithm
-import com.tripletres.platformscience.domain.algorithm.IAssignationAlgorithm
+import com.tripletres.platformscience.domain.algorithm.*
 import com.tripletres.platformscience.domain.model.*
 import javax.inject.Inject
 
@@ -19,7 +16,7 @@ class AssignDriversToShipmentsUseCase @Inject constructor(
 ) {
 
     // Can be changed for your favorite algorithm
-    private val defaultAlgorithm = AssignationAlgorithmType.GREEDY.name
+    private val defaultAlgorithm = AssignationAlgorithmType.ANT_COLONY.name
 
     suspend operator fun invoke(algorithm: String?): List<Driver> {
         val drivers = driverRepository.getDriversFromDB().asDriverList()
@@ -50,6 +47,7 @@ class AssignDriversToShipmentsUseCase @Inject constructor(
         return when (type.toAssignationAlgorithmType()) {
             AssignationAlgorithmType.GREEDY -> GreedyAssignationAlgorithm()
             AssignationAlgorithmType.BRANCH -> BranchAndBoundAlgorithm()
+            AssignationAlgorithmType.ANT_COLONY -> AntColonyOptimizationAlgorithm()
         }
     }
 

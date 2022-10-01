@@ -13,20 +13,35 @@ Write an Android Application using the json file provided as input that displays
 
 ### Prerequisites
 
-N/A
+Install the latest version of Android studio and:
+- compileSdk 33
+- minSdk 21
+- gradle-7.3.3
+- emulator or device with min version DEVELOPER mode
+- make sure unsigned apks can be installed
+
+IMPORTANT: You may use this app with WIFI connection
 
 ### Installation
 
-N/A
+Clone repo and open it Android studio.
+Execute and install generated APK in the emulator or device
+OR
+Use "dist/demo.apk" 
 
 ## Usage
 
-TBD
+1. Conect to Wifi or any network
+2. Open the app and wait until load
+3. Main screen is the list of drivers assigned
+4. Tap over any driver to see details
+5. FAB is used to reload with specific settings
 
 
 ## License
 
 All rights reserved
+All images and brands are property of Platform Science INC, used as demo proposes.
 
 ## Contacts
 

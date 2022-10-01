@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+/**
+ * Simple settings view model class, allows to set up settings for shared preferences
+ */
 @HiltViewModel
 class SimpleSettingsViewModel @Inject constructor(
     private val settings: SimpleSettingsUtil,
@@ -18,14 +21,22 @@ class SimpleSettingsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(fromSettings())
     val uiState = _uiState.asStateFlow()
 
+    /**
+     * Updates state of fetching method
+     */
     fun updateDbOrApi(state: Boolean) {
-        val dbOrApi = if (state) SimpleSettingsUtil.DB_OR_API_DEF else SimpleSettingsUtil.DB_OR_API_API
-            settings.setPreference(SimpleSettingsUtil.DB_OR_API, dbOrApi)
+        val dbOrApi =
+            if (state) SimpleSettingsUtil.DB_OR_API_DEF else SimpleSettingsUtil.DB_OR_API_API
+        settings.setPreference(SimpleSettingsUtil.DB_OR_API, dbOrApi)
         updateState()
     }
 
+    /**
+     * Updates algorithm resolution
+     */
     fun updateAlgorithmSelected(algorithm: String) {
-       settings.setPreference(SimpleSettingsUtil.ALGORITHM, algorithm)
+        settings.setPreference(SimpleSettingsUtil.ALGORITHM, algorithm)
+        updateState()
     }
 
     /**
@@ -44,6 +55,6 @@ class SimpleSettingsViewModel @Inject constructor(
     /**
      * Call update state when saved to shared preferences
      */
-    private fun updateState() =_uiState.update { fromSettings() }
+    private fun updateState() = _uiState.update { fromSettings() }
 
 }

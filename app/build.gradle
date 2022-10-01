@@ -6,14 +6,22 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        prod {
+            storeFile file('../dist/kesytore')
+            storePassword 'platform'
+            keyAlias 'psdks'
+            keyPassword 'platform'
+        }
+    }
     compileSdk 33
 
     defaultConfig {
         applicationId "com.tripletres.platformscience"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -30,6 +38,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.prod
         }
     }
     compileOptions {

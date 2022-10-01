@@ -12,6 +12,8 @@
     <string name="driver_assigned_route">Has an assigned route: </string>
     <string name="driver_reload_title">Do you want to reload?</string>
     <string name="driver_list_title">Drivers</string>
+    <string name="driver_list_summary_title_count">Total drivers</string>
+    <string name="driver_list_summary_title_ss">Total SS</string>
 
     //Settings
     <string name="setting_db_or_api">Source set</string>
@@ -22,6 +24,7 @@
     <string name="algorithm">Algorithm:</string>
     <string name="algorithm_greedy">Greedy</string>
     <string name="algorithm_branch_and_bound">Branch and bound</string>
+    <string name="algorithm_aco">AI - Ant colony optimization</string>
 
     //Common
     <string name="ok">OK</string>
