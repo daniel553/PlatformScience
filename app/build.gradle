@@ -8,7 +8,7 @@ plugins {
 android {
     signingConfigs {
         prod {
-            storeFile file('/Users/danielgarcia/AndroidStudioProjects/PlatformScience/dist/keystore')
+            storeFile file('../dist/kesytore')
             storePassword 'platform'
             keyAlias 'psdks'
             keyPassword 'platform'
@@ -38,6 +38,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.prod
         }
     }
     compileOptions {
