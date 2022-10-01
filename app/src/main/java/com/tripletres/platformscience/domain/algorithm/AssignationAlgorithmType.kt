@@ -6,4 +6,5 @@ package com.tripletres.platformscience.domain.algorithm
 enum class AssignationAlgorithmType {
     GREEDY,
     BRANCH,
+    ANT_COLONY
 }

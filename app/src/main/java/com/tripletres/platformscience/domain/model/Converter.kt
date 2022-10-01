@@ -66,6 +66,7 @@ fun String.toAssignationAlgorithmType(): AssignationAlgorithmType {
     return when (this) {
         "GREEDY" -> AssignationAlgorithmType.GREEDY
         "BRANCH_BOUND" -> AssignationAlgorithmType.BRANCH
-        else -> TODO("No available")
+        "ACO" -> AssignationAlgorithmType.ANT_COLONY
+        else -> TODO("Domain: Algorithm No Available")
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.tripletres.platformscience.R
+import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.ALGORITHM_ACO
 import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.ALGORITHM_BRANCH_BOUND
 import com.tripletres.platformscience.util.SimpleSettingsUtil.Companion.ALGORITHM_GREEDY
 
@@ -47,6 +48,7 @@ fun SimpleSettingsView(modifier: Modifier? = Modifier) {
                 Text(
                     text = stringResource(
                         id = when (algorithm) {
+                            ALGORITHM_ACO -> R.string.algorithm_aco
                             ALGORITHM_GREEDY -> R.string.algorithm_greedy
                             ALGORITHM_BRANCH_BOUND -> R.string.algorithm_branch_and_bound
                             else -> R.string.algorithm_greedy

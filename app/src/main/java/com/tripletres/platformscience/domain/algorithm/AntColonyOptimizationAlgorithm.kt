@@ -19,7 +19,7 @@ import com.tripletres.platformscience.domain.model.Driver
  *
  */
 class AntColonyOptimizationAlgorithm : IAssignationAlgorithm {
-    private val MAX_ITERS = 500
+    private val MAX_ITERS = 20
     private val MAX_ANTS = 20
     private val EXPLORE_RATIO = 2
     private val PHEROMONE_INC = 1f
@@ -171,7 +171,10 @@ class AntColonyOptimizationAlgorithm : IAssignationAlgorithm {
      * Get solution
      */
     private fun buildDriverList(ant: Ant): List<Driver> {
-        return ant.path.map { it.driver.copy(shipment = it.shipment) }
+        val list = ant.path.map {
+            it.driver.copy(shipment = it.shipment, ss = it.ss)
+        }
+        return list
     }
 
     /**
