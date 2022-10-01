@@ -42,7 +42,7 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
             })
         },
         content = {
-            DriverListView(driverUiState.drivers) {
+            DriverListView(driverUiState.drivers, driverUiState.totalSS) {
                 navController.navigate(
                     route = Router.DriverDetailsScreen.buildRoute(it.id.toString())
                 )
@@ -83,13 +83,13 @@ fun DriverListViewScreen(navController: NavController, viewModel: DriverListView
 }
 
 @Composable
-fun DriverListView(drivers: List<DriverItem>, onDriverSelected: (driver: DriverItem) -> Unit) {
+fun DriverListView(drivers: List<DriverItem>, totalSS: Float,  onDriverSelected: (driver: DriverItem) -> Unit) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(start = 16.dp, end = 16.dp)
     ) {
         item() {
-            Spacer(modifier = Modifier.height(16.dp))
+            DriverSummaryRow(drivers.size, totalSS)
         }
         items(drivers) { driver ->
             DriverItemView(driver) {
@@ -172,6 +172,7 @@ fun DriverItemView(driver: DriverItem, onPressed: (id: Long) -> Unit) {
         )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

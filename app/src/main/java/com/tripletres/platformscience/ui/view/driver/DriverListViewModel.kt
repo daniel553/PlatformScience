@@ -26,7 +26,7 @@ class DriverListViewModel @Inject constructor(
     private val getAssignedDriversToShipmentsUseCase: GetAssignedDriversToShipmentsUseCase,
     private val loadDriversShipmentsUseCase: LoadDriversShipmentsUseCase,
     private val assignDriversToShipmentsUseCase: AssignDriversToShipmentsUseCase,
-    private val settings: SimpleSettingsUtil
+    private val settings: SimpleSettingsUtil,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DriverListUiState())
     val uiState = _uiState.asStateFlow()
@@ -37,7 +37,7 @@ class DriverListViewModel @Inject constructor(
 
             //Determine if "Accepted button was performed"
             //So we need to "reload" with new user settings
-            if(accept){
+            if (accept) {
                 loadDriversShipmentsUseCase(getCachedSetting())
                 assignDriversToShipmentsUseCase(getAlgorithmSetting())
             }
@@ -62,7 +62,8 @@ class DriverListViewModel @Inject constructor(
     private fun updateDriverList(drivers: List<DriverItem>) {
         _uiState.update {
             it.copy(
-                drivers = drivers
+                drivers = drivers,
+                totalSS = getTotalSS(drivers)
             )
         }
     }
@@ -75,7 +76,13 @@ class DriverListViewModel @Inject constructor(
         }
     }
 
-    private fun getCachedSetting() = settings.getPreference(SimpleSettingsUtil.DB_OR_API) == SimpleSettingsUtil.DB_OR_API_DEF
+    private fun getTotalSS(drivers: List<DriverItem>): Float {
+        return drivers.map { it.ss }.reduce { acc, fl -> acc?.plus(fl!!) } ?: 0f
+    }
+
+    private fun getCachedSetting() =
+        settings.getPreference(SimpleSettingsUtil.DB_OR_API) == SimpleSettingsUtil.DB_OR_API_DEF
+
     private fun getAlgorithmSetting() = settings.getPreference(SimpleSettingsUtil.ALGORITHM)
 }
 
